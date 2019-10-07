@@ -297,29 +297,6 @@ public class GameEngine extends SurfaceView implements Runnable {
             this.canvas.drawRect(enemyHitbox.left,enemyHitbox.top,enemyHitbox.right,enemyHitbox.bottom,paintbrush);
             this.canvas.drawBitmap(this.enemy.getBitmap(),this.enemy.getXPosition(),this.enemy.getYPosition(),paintbrush);
 
-//
-////            Rect  enemyGangHitbox = this.enemyGang.getHitbox();
-////            this.canvas.drawRect(enemyGangHitbox.left,enemyGangHitbox.top,enemyGangHitbox.right,enemyGangHitbox.bottom,paintbrush);
-//
-//            for(int i=0; i<enemyGangList.size();i++) {
-//
-//                Rect enemyGangHitbox = this.enemyGang.getHitbox();
-//
-//                int x = enemyGangList.get(i).xPosition;
-//                int y = enemyGangList.get(i).yPosition;
-//                canvas.drawRect(enemyGangList.get(i).getHitbox().left,enemyGangList.get(i).getHitbox().top,enemyGangList.get(i).getHitbox().right,enemyGangList.get(i).getHitbox().bottom,paintbrush);
-//
-//            }
-//            // enemyGangList
-//
-//            for(int i = 0; i < enemyGangList.size(); i++){
-//
-//                int x = enemyGangList.get(i).xPosition;
-//                int y = enemyGangList.get(i).yPosition;
-//
-//                canvas.drawBitmap(this.enemyGang.getBitmap(),x,y,paintbrush);
-//
-//            }
 
             paintbrush.setColor(Color.WHITE);
 
