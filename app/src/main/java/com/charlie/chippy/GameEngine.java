@@ -221,28 +221,17 @@ public class GameEngine extends SurfaceView implements Runnable {
     public void updatePositions() {
 
 
-        // Update position of background
 
-
-
-
-        // @TODO: Update position of player
-
+        // @TODO: Bullets
         numloops = numloops + 1;
 
-
-
         int BULLET_SPEED = 150;
-
-
 
         for(int i = 0; i < this.bulletsList.size(); i++){
              bullet = this.bulletsList.get(i);
             bullet.yPosition = bullet.yPosition - BULLET_SPEED;
             bullet.updateHitbox();
-
         }
-
         if(shoot){
 
             if(numloops % 2 == 0){
@@ -251,7 +240,7 @@ public class GameEngine extends SurfaceView implements Runnable {
         }
 
 
-        // @TODO: Update position of enemy ships
+        // @TODO: Collision Detection between Player bullets and enemyGang
 
 
 
