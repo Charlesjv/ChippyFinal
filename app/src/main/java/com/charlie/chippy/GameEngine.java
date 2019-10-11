@@ -61,6 +61,8 @@ public class GameEngine extends SurfaceView implements Runnable {
     List<Bullets> bulletsList = new ArrayList<Bullets>();
 
     int BULLET_WIDTH = 35;
+
+    int LargerEnemyLife = 200;
     // ----------------------------
     // ## GAME STATS
     // ----------------------------
@@ -95,6 +97,9 @@ public class GameEngine extends SurfaceView implements Runnable {
         this.spawnEnemyGang4();
         this.spawnBullets();
 
+
+
+        this.enemyGang = new EnemyGang(this.getContext(), enemy.getBitmap().getWidth() , this.screenHeight / 2-140);
 
         // @TODO: Any other game setup
 
@@ -241,6 +246,49 @@ public class GameEngine extends SurfaceView implements Runnable {
 
 
         // @TODO: Collision Detection between Player bullets and enemyGang
+
+
+        for(int i= 0;i< bulletsList.size(); i++){
+
+            Bullets NoOfBullets = this.bulletsList.get(i);
+            for(int j=0; j < enemyGangList2.size(); j++ ) {
+                EnemyGang enemyGang = this.enemyGangList2.get(j);
+
+
+                if (NoOfBullets.getHitbox().intersect(this.enemyGang.getHitbox())) {
+
+                    this.enemyGangList2.remove(enemyGang);
+                    LargerEnemyLife = 150;
+
+
+                    Log.d(TAG,"Bullet List Count:"+ bulletsList.size());
+                    Log.d(TAG,"EnemyGang List Count:"+ enemyGangList2.size());
+                }
+
+            }
+        }
+
+        if(LargerEnemyLife <= 150) {
+            for (int i = 0; i < bulletsList.size(); i++) {
+
+                Bullets NoOfBullets = this.bulletsList.get(i);
+
+                if (NoOfBullets.getHitbox().intersect(this.enemy.getHitbox())) {
+
+                    LargerEnemyLife = LargerEnemyLife - 2;
+
+                    Log.d(TAG,"Larger enemy Life"+LargerEnemyLife);
+
+                    if(LargerEnemyLife <= 0){
+                        this.enemy.yPosition = 2000;
+                        this.enemy.updateHitbox();
+                    }
+
+                }
+
+
+            }
+        }
 
 
 
