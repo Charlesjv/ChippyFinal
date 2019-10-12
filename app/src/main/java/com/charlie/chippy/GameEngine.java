@@ -52,17 +52,20 @@ public class GameEngine extends SurfaceView implements Runnable {
     Bullets bullet;
     Enemy enemy;
     EnemyGang enemyGang;
-    EnemyGang enemyGang1;
-    EnemyGang enemyGang2;
+    LargerEnemyBullets largerEnemyBullets;
+
+
     List<EnemyGang> enemyGangList1 = new ArrayList<EnemyGang>();
     List<EnemyGang> enemyGangList2 = new ArrayList<EnemyGang>();
     List<EnemyGang> enemyGangList3 = new ArrayList<EnemyGang>();
     List<EnemyGang> enemyGangList4 = new ArrayList<EnemyGang>();
     List<Bullets> bulletsList = new ArrayList<Bullets>();
+    List<LargerEnemyBullets> largerEnemyBulletsList = new ArrayList<LargerEnemyBullets>();
 
     int BULLET_WIDTH = 35;
 
     int LargerEnemyLife = 200;
+    int PlayerLife = 3;
     // ----------------------------
     // ## GAME STATS
     // ----------------------------
@@ -96,6 +99,7 @@ public class GameEngine extends SurfaceView implements Runnable {
         this.spawnEnemyGang3();
         this.spawnEnemyGang4();
         this.spawnBullets();
+        this.spawnLargerEnemyBullets();
 
 
 
@@ -168,6 +172,14 @@ public class GameEngine extends SurfaceView implements Runnable {
         this.bullet = new Bullets(getContext(),this.player.getHitbox().left ,this.player.getHitbox().top);
 
         this.bulletsList.add(bullet);
+    }
+
+
+    private void spawnLargerEnemyBullets(){
+
+        this.largerEnemyBulletsList.add(new LargerEnemyBullets(this.getContext(),this.enemy.getXPosition() + this.enemy.getBitmap().getWidth()/2 - 15 ,this.enemy.getYPosition() + this.enemy.getBitmap().getHeight()/2));
+
+
     }
     // ------------------------------
     // GAME STATE FUNCTIONS (run, stop, start)
@@ -245,6 +257,23 @@ public class GameEngine extends SurfaceView implements Runnable {
         }
 
 
+        // @TODO: Larger Enemy Bullets
+
+        if(numloops % 60 == 0){
+            spawnLargerEnemyBullets();
+        }
+        // @TODO: Larger Enemy Bullets
+
+        for(int i = 0; i< this.largerEnemyBulletsList.size();i++){
+
+            largerEnemyBullets = this.largerEnemyBulletsList.get(i);
+
+            largerEnemyBullets.yPosition = largerEnemyBullets.yPosition + BULLET_SPEED;
+            largerEnemyBullets.updateHitbox();
+
+        }
+
+
         // @TODO: Collision Detection between Player bullets and enemyGang
 
 
@@ -293,7 +322,27 @@ public class GameEngine extends SurfaceView implements Runnable {
 
 
 
-        // @TODO: Collision detection between enemy and wall
+        // @TODO: Collision detection between enemy bullets and the player
+
+        for(int i = 0; i< largerEnemyBulletsList.size(); i++){
+
+            LargerEnemyBullets largerEnemyBullets = this.largerEnemyBulletsList.get(i);
+
+            if(largerEnemyBullets.getHitbox().intersect(this.player.getHitbox())){
+
+                PlayerLife = PlayerLife - 1;
+
+                if(PlayerLife < 0){
+
+                    this.player.yPosition = 2000;
+                    this.player.updateHitbox();
+
+                }
+
+
+
+            }
+        }
 
 
         // @TODO: Collision detection between player and enemy
@@ -438,6 +487,22 @@ public class GameEngine extends SurfaceView implements Runnable {
                 canvas.drawBitmap(bullet.getImage(),this.bullet.xPosition,this.bullet.yPosition,paintbrush);
 
             }
+
+
+            // Draw larger enemy bullets on the screen
+
+            for(int i = 0; i < this.largerEnemyBulletsList.size(); i++){
+
+                largerEnemyBullets = this.largerEnemyBulletsList.get(i);
+
+                canvas.drawRect(largerEnemyBulletsList.get(i).getHitbox().left,largerEnemyBulletsList.get(i).getHitbox().top,largerEnemyBulletsList.get(i).getHitbox().right,largerEnemyBulletsList.get(i).getHitbox().bottom,paintbrush);
+                canvas.drawBitmap(largerEnemyBullets.getImage(),this.largerEnemyBullets.getxPosition(),this.largerEnemyBullets.getyPosition(),paintbrush);
+
+
+            }
+
+
+
 
             this.holder.unlockCanvasAndPost(canvas);
         }

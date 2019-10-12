@@ -17,8 +17,6 @@ public class LargerEnemyBullets {
     public int yPosition;
 
 
-    private final int BULLET_WIDTH = 15;
-
     public LargerEnemyBullets(Context context, int x, int y) {
         // 1. set up the initial position of the Enemy
         this.xPosition = x;
