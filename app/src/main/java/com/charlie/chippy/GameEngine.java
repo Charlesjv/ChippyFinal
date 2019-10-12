@@ -530,13 +530,17 @@ public class GameEngine extends SurfaceView implements Runnable {
 
 
         if(userAction == MotionEvent.ACTION_DOWN){
-            shoot = true;
+            if(PlayerLife >= 0) {
+                shoot = true;
+            }
         }
         //@TODO: What should happen when person touches the screen?
         if (userAction == MotionEvent.ACTION_MOVE) {
-            this.player.xPosition = fingerXPosition;
-            this.player.yPosition = fingerYPosition;
-            player.updateHitbox();
+            if(PlayerLife >= 0) {
+                this.player.xPosition = fingerXPosition;
+                this.player.yPosition = fingerYPosition;
+                player.updateHitbox();
+            }
 
 
         }
