@@ -335,6 +335,7 @@ public class GameEngine extends SurfaceView implements Runnable {
                 if(PlayerLife < 0){
 
                     this.player.yPosition = 2000;
+                    this.player.xPosition = 2000;
                     this.player.updateHitbox();
 
                 }
@@ -501,7 +502,9 @@ public class GameEngine extends SurfaceView implements Runnable {
 
             }
 
-
+            paintbrush.setColor(Color.WHITE);
+            paintbrush.setTextSize(50);
+            this.canvas.drawText("Player lives: " + PlayerLife,700,40,paintbrush);
 
 
             this.holder.unlockCanvasAndPost(canvas);
