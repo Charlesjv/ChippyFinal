@@ -52,6 +52,8 @@ public class GameEngine extends SurfaceView implements Runnable {
     Bullets bullet;
     Enemy enemy;
     EnemyGang enemyGang;
+    EnemyGang enemyGang2;
+    EnemyGang enemyGang3;
     LargerEnemyBullets largerEnemyBullets;
 
 
@@ -105,7 +107,10 @@ public class GameEngine extends SurfaceView implements Runnable {
         this.spawnLargerEnemyBulletsLeft();
 
 
-        this.enemyGang = new EnemyGang(this.getContext(), enemy.getBitmap().getWidth() , this.screenHeight / 2-140);
+        this.enemyGang2 = new EnemyGang(this.getContext(), enemy.getBitmap().getWidth() , this.screenHeight / 2-140);
+        this.enemyGang =  new EnemyGang(this.getContext(), enemy.getHitbox().right - 40, this.screenHeight / 2 - 400);
+
+        this.enemyGang3 = new EnemyGang(this.getContext(),  enemy.getBitmap().getWidth()/2 - 10 , this.screenHeight / 2 - 400);
 
 
     }
@@ -133,7 +138,10 @@ public class GameEngine extends SurfaceView implements Runnable {
 // Draw Enemy Gang on the right side of larger enemy Beetle
         for(int i = 0; i<=6; i++) {
 
-            this.enemyGangList1.add(new EnemyGang(this.getContext(), enemy.getHitbox().right - 40, this.screenHeight / 2 - 400));
+            this.enemyGang =  new EnemyGang(this.getContext(), enemy.getHitbox().right - 40, this.screenHeight / 2 - 400);
+
+
+            this.enemyGangList1.add(enemyGang);
         }
 
     }
@@ -142,7 +150,9 @@ public class GameEngine extends SurfaceView implements Runnable {
 // Draw Enemy Gang on the bottom side of the larger enemy
         for(int i = 0; i<=11; i++) {
 
-            this.enemyGangList2.add(new EnemyGang(this.getContext(), enemy.getBitmap().getWidth() , this.screenHeight / 2-140));
+            this.enemyGang2 = new EnemyGang(this.getContext(), enemy.getBitmap().getWidth() , this.screenHeight / 2-140);
+
+            this.enemyGangList2.add(enemyGang2);
         }
 
     }
@@ -152,8 +162,9 @@ public class GameEngine extends SurfaceView implements Runnable {
 
 
         for(int i = 0; i<=6; i++) {
+            this.enemyGang3 = new EnemyGang(this.getContext(),  enemy.getBitmap().getWidth()/2 - 10 , this.screenHeight / 2 - 400);
 
-            this.enemyGangList3.add(new EnemyGang(this.getContext(),  enemy.getBitmap().getWidth()/2 - 10 , this.screenHeight / 2 - 400));
+            this.enemyGangList3.add(enemyGang3);
         }
 
     }
@@ -321,7 +332,7 @@ public class GameEngine extends SurfaceView implements Runnable {
 
 
 
-        // @TODO: Collision Detection between Player bullets and enemyGang
+        // @TODO: Collision Detection between Player bullets and enemyGang from the bottom
 
 
         for(int i= 0;i< bulletsList.size(); i++){
@@ -331,7 +342,7 @@ public class GameEngine extends SurfaceView implements Runnable {
                 EnemyGang enemyGang = this.enemyGangList2.get(j);
 
 
-                if (NoOfBullets.getHitbox().intersect(this.enemyGang.getHitbox())) {
+                if (NoOfBullets.getHitbox().intersect(this.enemyGang2.getHitbox())) {
 
                     this.enemyGangList2.remove(enemyGang);
                     LargerEnemyLife = 150;
@@ -362,6 +373,52 @@ public class GameEngine extends SurfaceView implements Runnable {
 
                 }
 
+
+            }
+        }
+
+
+        // @TODO: Collision Detection between Player bullets and enemyGang on the right
+
+        for(int i= 0;i< bulletsList.size(); i++){
+
+            Bullets NoOfBullets = this.bulletsList.get(i);
+            for(int j=0; j < enemyGangList1.size(); j++ ) {
+                EnemyGang enemyGang = this.enemyGangList1.get(j);
+
+
+                if (NoOfBullets.getHitbox().intersect(this.enemyGang.getHitbox())) {
+
+                    this.enemyGangList1.remove(enemyGang);
+
+
+
+                    Log.d(TAG,"Bullet List Count:"+ bulletsList.size());
+                    Log.d(TAG,"EnemyGang List Count:"+ enemyGangList1.size());
+                }
+
+            }
+        }
+
+
+        // @TODO: Collision Detection between Player bullets and enemyGang on the left
+
+        for(int i= 0;i< bulletsList.size(); i++){
+
+            Bullets NoOfBullets = this.bulletsList.get(i);
+            for(int j=0; j < enemyGangList3.size(); j++ ) {
+                EnemyGang enemyGang = this.enemyGangList3.get(j);
+
+
+                if (NoOfBullets.getHitbox().intersect(this.enemyGang3.getHitbox())) {
+
+                    this.enemyGangList3.remove(enemyGang);
+
+
+
+                    Log.d(TAG,"Bullet List Count:"+ bulletsList.size());
+                    Log.d(TAG,"EnemyGang List Count:"+ enemyGangList3.size());
+                }
 
             }
         }
@@ -413,8 +470,27 @@ public class GameEngine extends SurfaceView implements Runnable {
 
             }
         }
+        // @TODO: Collision detection between enemy bullets left and the player
+        for(int i = 0; i< largerEnemyBulletsListLeft.size(); i++){
+
+            LargerEnemyBullets largerEnemyBullets = this.largerEnemyBulletsListLeft.get(i);
+
+            if(largerEnemyBullets.getHitbox().intersect(this.player.getHitbox())){
+
+                PlayerLife = PlayerLife - 1;
+
+                if(PlayerLife < 0){
+
+                    this.player.yPosition = 2000;
+                    this.player.xPosition = 2000;
+                    this.player.updateHitbox();
+
+                }
 
 
+
+            }
+        }
         // @TODO: Collision detection between player and enemy
 
     }
