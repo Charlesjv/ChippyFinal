@@ -115,7 +115,7 @@ public class GameEngine extends SurfaceView implements Runnable {
 
         this.enemyGang3 = new EnemyGang(this.getContext(),  enemy.getBitmap().getWidth()/2 - 10 , this.screenHeight / 2 - 400);
 
-        this.largerEnemyBulletsHorizontally = new LargerEnemyBullets(this.getContext(),220,100);
+        this.largerEnemyBulletsHorizontally = new LargerEnemyBullets(this.getContext(),220,-400);
 
     }
 
@@ -213,9 +213,9 @@ public class GameEngine extends SurfaceView implements Runnable {
 
     private void spawnLargerEnemyHorizontally(){
 
-        for(int i = 0; i <= 9; i++ ){
+        for(int i = 0; i <= 17; i++ ){
 
-            this.largerEnemyBulletsHorizontalList.add(new LargerEnemyBullets(this.getContext(),220 ,10));
+            this.largerEnemyBulletsHorizontalList.add(new LargerEnemyBullets(this.getContext(),220 ,-400));
 
 
         }
@@ -536,7 +536,7 @@ public class GameEngine extends SurfaceView implements Runnable {
 
 
         for(int i = 0; i< this.largerEnemyBulletsHorizontalList.size(); i++){
-            this.largerEnemyBulletsHorizontalList.get(i).yPosition = this.largerEnemyBulletsHorizontalList.get(i).yPosition + 60;
+            this.largerEnemyBulletsHorizontalList.get(i).yPosition = this.largerEnemyBulletsHorizontalList.get(i).yPosition + 10;
             this.largerEnemyBulletsHorizontalList.get(i).updateHitbox();
         }
 
