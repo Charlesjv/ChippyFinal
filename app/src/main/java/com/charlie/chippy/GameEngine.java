@@ -506,6 +506,32 @@ public class GameEngine extends SurfaceView implements Runnable {
             }
         }
 
+
+        // @TODO: Collision detection between enemy bullets moving Horizontally  on the player
+        for(int i = 0; i< largerEnemyBulletsHorizontalList.size(); i++){
+
+            LargerEnemyBullets largerEnemyBulletsHorizontally = this.largerEnemyBulletsHorizontalList.get(i);
+
+            if(largerEnemyBulletsHorizontally.getHitbox().intersect(this.player.getHitbox())){
+
+                PlayerLife = PlayerLife - 1;
+
+                if(PlayerLife < 0){
+
+                    this.player.yPosition = 2000;
+                    this.player.xPosition = 2000;
+                    this.player.updateHitbox();
+
+                }
+
+
+
+            }
+        }
+
+
+
+
         // @TODO: Enemies Horizontal moving in on player
 
 
