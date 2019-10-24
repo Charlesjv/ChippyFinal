@@ -55,6 +55,7 @@ public class GameEngine extends SurfaceView implements Runnable {
     EnemyGang enemyGang2;
     EnemyGang enemyGang3;
     LargerEnemyBullets largerEnemyBullets;
+    LargerEnemyBullets largerEnemyBulletsHorizontally;
 
 
     List<EnemyGang> enemyGangList1 = new ArrayList<EnemyGang>();
@@ -65,6 +66,7 @@ public class GameEngine extends SurfaceView implements Runnable {
     List<LargerEnemyBullets> largerEnemyBulletsListBottom = new ArrayList<LargerEnemyBullets>();
     List<LargerEnemyBullets> largerEnemyBulletsListRight = new ArrayList<LargerEnemyBullets>();
     List<LargerEnemyBullets> largerEnemyBulletsListLeft = new ArrayList<LargerEnemyBullets>();
+    List<LargerEnemyBullets> largerEnemyBulletsHorizontalList = new ArrayList<LargerEnemyBullets>();
     int BULLET_WIDTH = 35;
 
     int LargerEnemyLife = 200;
@@ -105,6 +107,7 @@ public class GameEngine extends SurfaceView implements Runnable {
         this.spawnLargerEnemyBulletsBottom();
         this.spawnLargerEnemyBulletsRight();
         this.spawnLargerEnemyBulletsLeft();
+        this.spawnLargerEnemyHorizontally();
 
 
         this.enemyGang2 = new EnemyGang(this.getContext(), enemy.getBitmap().getWidth() , this.screenHeight / 2-140);
@@ -112,6 +115,7 @@ public class GameEngine extends SurfaceView implements Runnable {
 
         this.enemyGang3 = new EnemyGang(this.getContext(),  enemy.getBitmap().getWidth()/2 - 10 , this.screenHeight / 2 - 400);
 
+        this.largerEnemyBulletsHorizontally = new LargerEnemyBullets(this.getContext(),220,100);
 
     }
 
@@ -205,6 +209,16 @@ public class GameEngine extends SurfaceView implements Runnable {
         this.largerEnemyBulletsListLeft.add(new LargerEnemyBullets(this.getContext(),this.enemy.getXPosition() + this.enemy.getBitmap().getWidth()/2 - 15 ,this.enemy.getYPosition() + this.enemy.getBitmap().getHeight()/2));
 
 
+    }
+
+    private void spawnLargerEnemyHorizontally(){
+
+        for(int i = 0; i <= 9; i++ ){
+
+            this.largerEnemyBulletsHorizontalList.add(new LargerEnemyBullets(this.getContext(),220 ,10));
+
+
+        }
     }
 
     // ------------------------------
@@ -491,6 +505,17 @@ public class GameEngine extends SurfaceView implements Runnable {
 
             }
         }
+
+        // @TODO: Enemies Horizontal moving in on player
+
+
+        for(int i = 0; i< this.largerEnemyBulletsHorizontalList.size(); i++){
+            this.largerEnemyBulletsHorizontalList.get(i).yPosition = this.largerEnemyBulletsHorizontalList.get(i).yPosition + 60;
+            this.largerEnemyBulletsHorizontalList.get(i).updateHitbox();
+        }
+
+
+
         // @TODO: Collision detection between player and enemy
 
     }
@@ -669,6 +694,15 @@ public class GameEngine extends SurfaceView implements Runnable {
 
             }
 
+
+            // Draw EnemyGangHorizontally  on the game
+
+            for(int i = 0; i<this.largerEnemyBulletsHorizontalList.size(); i++){
+
+                canvas.drawBitmap(largerEnemyBulletsHorizontalList.get(i).getImage(),this.largerEnemyBulletsHorizontalList.get(i).getxPosition() + BULLET_WIDTH*i ,this.largerEnemyBulletsHorizontalList.get(i).getyPosition(),paintbrush);
+                canvas.drawRect(largerEnemyBulletsHorizontalList.get(i).getHitbox().left,largerEnemyBulletsHorizontalList.get(i).getHitbox().top,largerEnemyBulletsHorizontalList.get(i).getHitbox().right + BULLET_WIDTH * i,largerEnemyBulletsHorizontalList.get(i).getHitbox().bottom,paintbrush);
+
+            }
 
             paintbrush.setColor(Color.WHITE);
             paintbrush.setTextSize(50);
